@@ -1,0 +1,52 @@
+﻿<phone:PhoneApplicationPage xmlns:my1="clr-namespace:GeomindMe.Views"  xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps"  
+    x:Class="GeomindMe.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728" 
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False" 
+    DataContext="{Binding Path=MainViewModel, Source={StaticResource Locator}}">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <controls:Pivot  LoadedPivotItem="Pivot_LoadedPivotItem" Foreground="{StaticResource CommonTitleFontColorResource}">
+            <controls:Pivot.Title>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="/GeomindMe;component/Images/geomindme-logo-24.png" Height="24" Width="24"/>
+                    <TextBlock Text="GeomindMe" Foreground="White"/>
+                </StackPanel>
+            </controls:Pivot.Title>
+            <controls:PivotItem Name="ToDoItemsListPivotItem" Header="to do" DataContext="{Binding Path=ToDoItemsListViewModel, Source={StaticResource Locator}}">
+                <my1:ToDoItemsListView />
+            </controls:PivotItem>
+            <controls:PivotItem Name="MapPivotItem" Header="map" DataContext="{Binding Path=ToDoItemsListViewModel, Source={StaticResource Locator}}">
+                <Grid>
+                    <my1:MapView />
+                </Grid>
+            </controls:PivotItem>
+        </controls:Pivot>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar >
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="{StaticResource AppBarColorResource}">
+            <!-- Show when ToDoItemsListPivotItem-->
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.add.rest.png" Text="add" Click="OnAppBarButtonAddToDoItemClick" x:Name="AddAppBarButton"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.refresh.rest.png" Text="active" Click="OnAppBarButtonRefreshClick" x:Name="RefreshAppBarButton"/>
+            <!-- Show when MapPivotItem-->
+            <!--<shell:ApplicationBarIconButton IconUri="/Images/appbar.add.rest.png" Text="Me" Click="OnAppBarButtonLocateMeClick" x:Name="LocateMeAppBarButton"/>-->
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="About" x:Name="AboutMenuItem" Click="OnAppBarAboutClick"/>
+                <shell:ApplicationBarMenuItem Text="Show completed" x:Name="ShowCompletedMenuItem" Click="ShowCompletedMenuItem_Click"/>
+                <shell:ApplicationBarMenuItem Text="Show incompleted" x:Name="ShowIcompletedMenuItem" Click="ShowIcompletedMenuItem_Click"/>
+                <shell:ApplicationBarMenuItem Text="Settings" x:Name="SettingsMenuItem" Click="OnAppBarSettingsClick"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

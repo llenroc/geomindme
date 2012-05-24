@@ -1,0 +1,74 @@
+﻿<UserControl xmlns:my1="clr-namespace:JediNinja.Controls.WP;assembly=JediNinja.Controls.WP"  xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps"  x:Class="GeomindMe.Views.MapView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480"
+    d:DataContext="{Binding Path=ToDoItemsListViewModel, Source={StaticResource Locator}}">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <!--<RowDefinition Height="Auto"/>-->
+                </Grid.RowDefinitions>
+                <my:Map x:Name="GeoMap" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="{StaticResource CommonTitleFontColorResource}" CredentialsProvider="AgQ21ZMNQPyg3NtMwL3B7Fo0QoVwre_eYOBLgB9kEW2rsmizvnjFXwamKdza4N2q">
+                    <my:Pushpin x:Name="locationPushPin">
+                        <my:Pushpin.Content>
+                            <Grid>
+                                <Ellipse Width="24" Height="24" Fill="#FF8CBA40" />
+                            </Grid>
+                        </my:Pushpin.Content>
+                    </my:Pushpin>
+
+                    <my:MapItemsControl ItemsSource="{Binding ToDoItems}" Loaded="MapItemsControl_Loaded">
+                        <my:MapItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <my:Pushpin my:MapLayer.Position="{Binding Location}">
+                                    <my:Pushpin.Content>
+                                        <Grid>
+                                            <TextBlock Text="{Binding Text}"/>
+                                        </Grid>
+                                    </my:Pushpin.Content>
+                                </my:Pushpin>
+                            </DataTemplate>
+                        </my:MapItemsControl.ItemTemplate>
+                    </my:MapItemsControl>
+                </my:Map>
+                <StackPanel Grid.Column="1" Margin="0">
+                    <Button Content="+" Margin="0" x:Name="ZoomInButton" Click="ZoomInButton_Click" BorderBrush="{StaticResource CommonTitleFontColorResource}" Foreground="{StaticResource CommonTitleFontColorResource}" />
+                    <Button Content="-" Margin="0" x:Name="ZoomOutButton" Click="ZoomOutButton_Click" BorderBrush="{StaticResource CommonTitleFontColorResource}" Foreground="{StaticResource CommonTitleFontColorResource}" />
+                </StackPanel>
+                <Button  Margin="3,3,3,60" x:Name="MeButton" Grid.Column="1" VerticalAlignment="Bottom" Click="MeButton_Click" BorderThickness="0">
+                    <Button.Content>
+                        <Image Source="/JediNinja.Controls.WP;component/Images/locateme-icon-colored.png" Width="48" />
+                    </Button.Content>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!--<Button Content="OK" Grid.Column="0" x:Name="OKButton" Click="OKButton_Click" />
+                    <Button Content="Cancel" Grid.Column="1" x:Name="CancelButton" Click="CancelButton_Click" />-->
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

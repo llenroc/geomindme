@@ -1,0 +1,125 @@
+﻿<phone:PhoneApplicationPage xmlns:my1="clr-namespace:JediNinja.Controls.WP;assembly=JediNinja.Controls.WP"  xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"  
+    x:Class="GeomindMe.Views.ToDoItemEditViewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True"
+    DataContext="{Binding Path=ToDoItemEditViewModel, Source={StaticResource Locator}}"
+    xmlns:helpers="clr-namespace:GeomindMe.Helpers">
+    <phone:PhoneApplicationPage.Resources>
+        <helpers:BoolToOnOffConverter x:Key="BoolToOnOffConverter"/>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent" DataContext="{Binding Path=ToDoItem}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,15">
+            <!--<TextBlock x:Name="ApplicationTitle" Text="GeomindMe" Style="{StaticResource PhoneTextNormalStyle}"/>-->
+            <TextBlock x:Name="PageTitle" Text="EDIT TO-DO" Margin="9,-7,0,0" Style="{StaticResource PhoneTextNormalCustomStyle}"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBox Text="{Binding Mode=TwoWay, Path=Text}" Grid.Row="0" AcceptsReturn="True" />
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="Reminder" Style="{StaticResource PhoneTextNormalCustomStyle}"/>
+                        <toolkit:ToggleSwitch Content="{Binding ReminderIsEnabled, Converter={StaticResource BoolToOnOffConverter}}"  IsChecked="{Binding ReminderIsEnabled, Mode=TwoWay}" SwitchForeground="{StaticResource CommonTitleFontColorResource}" Height="Auto" />
+                    </StackPanel>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!--<StackPanel Grid.Row="0">
+                        <TextBlock Text="Address"/>
+                        <TextBox Text="{Binding LocationAddress, Mode=TwoWay}" AcceptsReturn="True" Visibility="Collapsed" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBox Grid.Column="0" x:Name="AddressTextBox" Text="{Binding LocationAddress, Mode=TwoWay}"/>
+                            <Button Grid.Column="1" Content="Pick" Click="Button_Click" />
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="Location"/>
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="{Binding Mode=TwoWay, Path=LocationLongitude}" Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBlock Text="," Grid.Column="0" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding Mode=TwoWay, Path=LocationLatitude}" Grid.Column="1"/>
+                        </StackPanel>
+                    </StackPanel>-->
+                        <StackPanel>
+                            <TextBlock Text="Location" Style="{StaticResource PhoneTextNormalCustomStyle}"/>
+                            <my1:GeoLocationControl Grid.Row="2" x:Name="GeoLocationControlPicker" Height="320" />
+                        </StackPanel>
+
+                    <!--<StackPanel Grid.Row="1">
+                        <TextBlock Text="GPS longitude"/>
+                        <TextBox Text="{Binding Mode=TwoWay, Path=LocationLongitude}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2">
+                        <TextBlock Text="GPS latitude"/>
+                        <TextBox Text="{Binding Mode=TwoWay, Path=LocationLatitude}"/>
+                    </StackPanel>-->
+                        <StackPanel Grid.Row="3">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Reminder radius" Margin="0,0,10,0" Style="{StaticResource PhoneTextNormalCustomStyle}" />
+                                <TextBlock Text="{Binding Mode=TwoWay, Path=ReminderRadius}" Margin="0,0,10,0" Foreground="{StaticResource PhoneAccentBrush}" />
+                                <TextBlock Text="km"/>
+                            </StackPanel>
+                            <Slider Minimum="0.001" Maximum="25" Value="{Binding Mode=TwoWay, Path=ReminderRadius}" SmallChange="1" Foreground="{StaticResource CommonTitleFontColorResource}" />
+
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+
+    <!--Sample code showing usage of ApplicationBar-->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="{StaticResource AppBarColorResource}">
+            <shell:ApplicationBarIconButton  IconUri="/Images/appbar.check.rest.png" Text="OK" Click="OnAppBarButtonSaveClick" />
+            <shell:ApplicationBarIconButton  IconUri="/Images/appbar.cancel.rest.png" Text="Cancel" Click="OnAppBarButtonCancelClick" />
+            <!--<shell:ApplicationBarIconButton IconUri="/Images/appbar.delete.rest.png" Text="Complete"/>-->
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>
