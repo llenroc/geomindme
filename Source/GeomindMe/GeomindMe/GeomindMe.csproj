@@ -75,6 +75,7 @@
     <Compile Include="Helpers\ApplicationBarHelper.cs" />
     <Compile Include="Helpers\BoolToOnOffConverter.cs" />
     <Compile Include="Helpers\NotBoolToSwitchTitleConverter.cs" />
+    <Compile Include="Helpers\RoundDoubleConverter.cs" />
     <Compile Include="LocationPinControl.xaml.cs">
       <DependentUpon>LocationPinControl.xaml</DependentUpon>
     </Compile>
@@ -89,6 +90,7 @@
     <Compile Include="Models\ToDoItemRepository.cs" />
     <Compile Include="Services\NavigationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ScheduledAgentsManager.cs" />
     <Compile Include="ViewModels\BingMapsLocationSearchViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

@@ -46,8 +46,8 @@
                 <TextBlock Text="{Binding Text}" Grid.Row="0" Grid.Column="1" Style="{StaticResource PhoneTextExtraLargeCutomStyle}" Margin="0" />
             </Grid>
             
-            <my:Map Grid.Row="1" VerticalAlignment="Stretch" CredentialsProvider="AgQ21ZMNQPyg3NtMwL3B7Fo0QoVwre_eYOBLgB9kEW2rsmizvnjFXwamKdza4N2q">
-                <my:Pushpin my:MapLayer.Position="{Binding Location}">
+            <my:Map Grid.Row="1" x:Name="DetailsMap" VerticalAlignment="Stretch" CredentialsProvider="AgQ21ZMNQPyg3NtMwL3B7Fo0QoVwre_eYOBLgB9kEW2rsmizvnjFXwamKdza4N2q">
+                <my:Pushpin my:MapLayer.Position="{Binding Location}" x:Name="TodoLocation">
                     <my:Pushpin.Content>
                         <Grid>
                             <TextBlock Text="{Binding Text}"/>

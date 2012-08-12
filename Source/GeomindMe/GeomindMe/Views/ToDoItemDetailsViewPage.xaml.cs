@@ -12,17 +12,18 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.Windows.Navigation;
 using GeomindMe.ViewModels;
+using System.Device.Location;
 
 namespace GeomindMe.Views
 {
-    public partial class ToDoItemDetailsViewPage : PhoneApplicationPage
-    {
-        public ToDoItemDetailsViewPage()
-        {
-            InitializeComponent();
-        }
+	public partial class ToDoItemDetailsViewPage : PhoneApplicationPage
+	{
+		public ToDoItemDetailsViewPage()
+		{
+			InitializeComponent();
+		}
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+		protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -37,7 +38,16 @@ namespace GeomindMe.Views
 
                 ToDoItemDetailsViewModel viewModel = (ToDoItemDetailsViewModel)this.DataContext;
                 string currentUri = e.Uri.OriginalString;
+				viewModel.OnToDoItemChanged += new GeomindMe.ViewModels.ToDoItemDetailsViewModel.LocationEventHandler(
+						(geoLocation)=>
+						{
+							Dispatcher.BeginInvoke(new Action(() =>
+							{
+								NavigateMap(new GeoCoordinate(geoLocation.Latitude, geoLocation.Longitude), true);
+							}));
+						});
                 viewModel.Load(id, currentUri);
+				
                 return;
             }
             else
@@ -46,82 +56,91 @@ namespace GeomindMe.Views
             }
         }
 
-        private void OnAppBarButtonEditClick(object sender, EventArgs e)
-        {
+		private void NavigateMap(System.Device.Location.GeoCoordinate todoLocation, bool closeZoom)
+		{
+			DetailsMap.Center = todoLocation;
+			if (closeZoom)
+			{
+				DetailsMap.ZoomLevel = 14;
+			}
+		}
 
-            var viewModel = DataContext as ToDoItemDetailsViewModel;
-            if (viewModel == null)
-            {
-                return;
-            }
+		private void OnAppBarButtonEditClick(object sender, EventArgs e)
+		{
 
-            if (viewModel.ToDoItem == null)
-            {
-                return;
-            }
+			var viewModel = DataContext as ToDoItemDetailsViewModel;
+			if (viewModel == null)
+			{
+				return;
+			}
 
-            viewModel.EditCommand.Execute(null);
-        }
+			if (viewModel.ToDoItem == null)
+			{
+				return;
+			}
 
-        private void OnAppBarButtonCompleteClick(object sender, EventArgs e)
-        {
-            var viewModel = DataContext as ToDoItemDetailsViewModel;
-            if (viewModel == null)
-            {
-                return;
-            }
+			viewModel.EditCommand.Execute(null);
+		}
 
-            if (viewModel.ToDoItem == null)
-            {
-                return;
-            }
+		private void OnAppBarButtonCompleteClick(object sender, EventArgs e)
+		{
+			var viewModel = DataContext as ToDoItemDetailsViewModel;
+			if (viewModel == null)
+			{
+				return;
+			}
 
-            viewModel.CompleteCommand.Execute(null);
-        }
+			if (viewModel.ToDoItem == null)
+			{
+				return;
+			}
 
-        private void OnAppBarButtonDeleteClick(object sender, EventArgs e)
-        {
-            var viewModel = DataContext as ToDoItemDetailsViewModel;
-            if (viewModel != null)
-            {
-                viewModel.DeleteCommand.Execute(null);
-            }
-        }
+			viewModel.CompleteCommand.Execute(null);
+		}
 
-        private void OnAppBarButtonPinToStartClick(object sender, EventArgs e)
-        {
-            var viewModel = DataContext as ToDoItemDetailsViewModel;
-            if (viewModel != null)
-            {
-                viewModel.PinToStartCommand.Execute(null);
-            }
-        }
+		private void OnAppBarButtonDeleteClick(object sender, EventArgs e)
+		{
+			var viewModel = DataContext as ToDoItemDetailsViewModel;
+			if (viewModel != null)
+			{
+				viewModel.DeleteCommand.Execute(null);
+			}
+		}
 
-        private void OnAppBarButtonGetDirectionsClick(object sender, EventArgs e)
-        {
-            var viewModel = DataContext as ToDoItemDetailsViewModel;
-            if (viewModel != null)
-            {
-                viewModel.GetDirectionsCommand.Execute(null);
-            }
-        }
+		private void OnAppBarButtonPinToStartClick(object sender, EventArgs e)
+		{
+			var viewModel = DataContext as ToDoItemDetailsViewModel;
+			if (viewModel != null)
+			{
+				viewModel.PinToStartCommand.Execute(null);
+			}
+		}
 
-        private void OnAppBarButtonSendAsEmail(object sender, EventArgs e)
-        {
-            var viewModel = DataContext as ToDoItemDetailsViewModel;
-            if (viewModel != null)
-            {
-                viewModel.SendAsEmailCommand.Execute(null);
-            }
-        }
+		private void OnAppBarButtonGetDirectionsClick(object sender, EventArgs e)
+		{
+			var viewModel = DataContext as ToDoItemDetailsViewModel;
+			if (viewModel != null)
+			{
+				viewModel.GetDirectionsCommand.Execute(null);
+			}
+		}
 
-        private void OnAppBarButtonSendAsSms(object sender, EventArgs e)
-        {
-            var viewModel = DataContext as ToDoItemDetailsViewModel;
-            if (viewModel != null)
-            {
-                viewModel.SendAsSmsCommand.Execute(null);
-            }
-        }
-    }
+		private void OnAppBarButtonSendAsEmail(object sender, EventArgs e)
+		{
+			var viewModel = DataContext as ToDoItemDetailsViewModel;
+			if (viewModel != null)
+			{
+				viewModel.SendAsEmailCommand.Execute(null);
+			}
+		}
+
+		private void OnAppBarButtonSendAsSms(object sender, EventArgs e)
+		{
+			var viewModel = DataContext as ToDoItemDetailsViewModel;
+			if (viewModel != null)
+			{
+				viewModel.SendAsSmsCommand.Execute(null);
+			}
+		}
+	}
 }

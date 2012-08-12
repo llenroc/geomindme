@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JediNinja.Controls.WP", "JediNinja.Controls.WP\JediNinja.Controls.WP.csproj", "{16E80439-2CA2-4018-B87D-466FDF5C1E3D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeomindMe.ReminderScheduler", "GeomindMe.ReminderScheduler\GeomindMe.ReminderScheduler.csproj", "{66D6ECE0-E9CB-498F-835C-0361057C61B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeomindMe", "GeomindMe\GeomindMe.csproj", "{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeomindMe.Core", "GeomindMe.Core\GeomindMe.Core.csproj", "{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeomindMe", "GeomindMe\GeomindMe.csproj", "{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JediNinja.Controls.WP", "JediNinja.Controls.WP\JediNinja.Controls.WP.csproj", "{16E80439-2CA2-4018-B87D-466FDF5C1E3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeomindMe.ReminderScheduler", "GeomindMe.ReminderScheduler\GeomindMe.ReminderScheduler.csproj", "{66D6ECE0-E9CB-498F-835C-0361057C61B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16E80439-2CA2-4018-B87D-466FDF5C1E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16E80439-2CA2-4018-B87D-466FDF5C1E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16E80439-2CA2-4018-B87D-466FDF5C1E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,16 +33,6 @@ Global
 		{66D6ECE0-E9CB-498F-835C-0361057C61B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66D6ECE0-E9CB-498F-835C-0361057C61B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66D6ECE0-E9CB-498F-835C-0361057C61B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13AEC433-CE6B-4C86-AFF0-CB938BEBF192}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B4CF56D-F972-456A-95D7-D4B428E4AB5E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,141 +17,166 @@ using System.Xml.Serialization;
 
 namespace JediNinja.Controls.WP.Services
 {
-    class RequestInfo
-    {
-        public RequestInfo()
-        {
-            Buffer = new byte[BUFFER_SIZE];
-            Data = new StringBuilder();
-        }
+	class RequestInfo
+	{
+		public RequestInfo()
+		{
+			Buffer = new byte[BUFFER_SIZE];
+			Data = new StringBuilder();
+		}
 
-        public HttpWebRequest Request { get; set; }
-        public HttpWebResponse Response { get; set; }
-        public StringBuilder Data { get; set; }
-        public Stream ResponseStream { get; set; }
-        public byte[] Buffer { get; set; }
-        public const int BUFFER_SIZE = 1024;
-        public Action<string> OnDataReadCompleted { get; set; }
-    }
+		public HttpWebRequest Request { get; set; }
+		public HttpWebResponse Response { get; set; }
+		public StringBuilder Data { get; set; }
+		public Stream ResponseStream { get; set; }
+		public byte[] Buffer { get; set; }
+		public const int BUFFER_SIZE = 1024;
+		public Action<string> OnDataReadCompleted { get; set; }
+	}
 
 
 
-    public class GoogleMapsSimpleService
-    {
-        Action<GeoLocation> _onGeoLocationByAddressCallback;
-        public void GetGeoLocationByAddress(string address, Action<GeoLocation> geoLocationByAddressCallback)
-        {
-            _onGeoLocationByAddressCallback = geoLocationByAddressCallback;
+	public class GoogleMapsSimpleService
+	{
+		#region AddressByGeoLocation
+		Action<string> _onAddressByGeoLocationCallback;
+		public void GetAddressByGeoLocation(GeoLocation geoLocation, Action<string> addressByGeoLocationCallback)
+		{
+			_onAddressByGeoLocationCallback = addressByGeoLocationCallback;
 
-            string escapedAddress = Uri.EscapeUriString(address);
-            string requestUri = string.Format("https://maps.googleapis.com/maps/api/geocode/xml?address={0}&sensor=true", escapedAddress);
+			string formattedGeoLocation = Uri.EscapeUriString(string.Format("{0},{1}", geoLocation.Latitude, geoLocation.Longitude));
+			string requestUri = string.Format("https://maps.googleapis.com/maps/api/geocode/xml?address={0}&sensor=true", formattedGeoLocation);
 
-            Action<string> onDownloadCompleted = new Action<string>(ProcessDataForGetGeoLocationByAddress);
-            DownloadString(requestUri, onDownloadCompleted);
-        }
+			DownloadString(requestUri,
+				(data) =>
+				{
+					string address = ExtractAddressFromGeocodeData(data);
+					//GeoLocation geoLocation = new GeoLocation(42.642364f, 23.337971f);//some test data
+					if (_onAddressByGeoLocationCallback != null)
+					{
+						_onAddressByGeoLocationCallback(address);
+						_onAddressByGeoLocationCallback = null;
+					}
+				});
+		}
 
-        /// <summary>
-        /// Processes the downloaded raw data from googlemaps api
-        /// </summary>
-        /// <param name="data"></param>
-        private void ProcessDataForGetGeoLocationByAddress(string data)
-        {
-            GeoLocation geoLocation = ExtractGeoLocationFromData(data);
-            //GeoLocation geoLocation = new GeoLocation(42.642364f, 23.337971f);
-            if (_onGeoLocationByAddressCallback != null)
-            {
-                _onGeoLocationByAddressCallback(geoLocation);
-                _onGeoLocationByAddressCallback = null;
-            }
-        }
+		private string ExtractAddressFromGeocodeData(string data)
+		{
+			var geocodeResponse = GeoLocationPicker.Helpers.Serializer<GeocodeResponse>.DeserializeFromXMLString(data);
+			string address = geocodeResponse.result[0].address_component[0].long_name;
+			return address;
+		}
 
-        private GeoLocation ExtractGeoLocationFromData(string data)
-        {
-            var geocodeResponse = GeoLocationPicker.Helpers.Serializer<GeocodeResponse>.DeserializeFromXMLString(data);
+		#endregion
 
-            double lat = 0.0f;
-            string latStr = geocodeResponse.result[0].geometry[0].location[0].lat;
-            if (!double.TryParse(latStr, out lat))
-            {
-                lat = 0.0f;
-            }
+		#region GeoLocationByAddress
+		Action<GeoLocation> _onGeoLocationByAddressCallback;
+		public void GetGeoLocationByAddress(string address, Action<GeoLocation> geoLocationByAddressCallback)
+		{
+			_onGeoLocationByAddressCallback = geoLocationByAddressCallback;
 
-            double lon = 0.0f;
-            string lonStr = geocodeResponse.result[0].geometry[0].location[0].lng;
-            if (!double.TryParse(lonStr, out lon))
-            {
-                lon = 0.0f;
-            }
+			string escapedAddress = Uri.EscapeUriString(address);
+			string requestUri = string.Format("https://maps.googleapis.com/maps/api/geocode/xml?address={0}&sensor=true", escapedAddress);
 
-            var geoLocation = new GeoLocation(lat, lon);
+			DownloadString(requestUri, 
+				(data) =>
+				{
+					GeoLocation geoLocation = ExtractGeoLocationFromGeoCodeData(data);
+					//GeoLocation geoLocation = new GeoLocation(42.642364f, 23.337971f);//some test data
+					if (_onGeoLocationByAddressCallback != null)
+					{
+						_onGeoLocationByAddressCallback(geoLocation);
+						_onGeoLocationByAddressCallback = null;
+					}
+				});
+		}
+		private GeoLocation ExtractGeoLocationFromGeoCodeData(string data)
+		{
+			var geocodeResponse = GeoLocationPicker.Helpers.Serializer<GeocodeResponse>.DeserializeFromXMLString(data);
 
-            return geoLocation;
-        }
+			double lat = 0.0f;
+			string latStr = geocodeResponse.result[0].geometry[0].location[0].lat;
+			if (!double.TryParse(latStr, out lat))
+			{
+				lat = 0.0f;
+			}
 
-        #region HttpDownloadString
-        private void DownloadString(string requestUri, Action<string> ondDownloadCompleted)
-        {
-            var request = (HttpWebRequest)WebRequest.Create(requestUri);
-            RequestInfo requestInfo = new RequestInfo();
-            requestInfo.Request = request;
-            requestInfo.OnDataReadCompleted = ondDownloadCompleted;
-            var asyncResult = (IAsyncResult)request.BeginGetResponse(new AsyncCallback(ResponseCallback), requestInfo);
-        }
+			double lon = 0.0f;
+			string lonStr = geocodeResponse.result[0].geometry[0].location[0].lng;
+			if (!double.TryParse(lonStr, out lon))
+			{
+				lon = 0.0f;
+			}
 
-        public void ResponseCallback(IAsyncResult asyncResult)
-        {
-            try
-            {
-                var requestInfo = asyncResult.AsyncState as RequestInfo;
-                var request = requestInfo.Request;
+			var geoLocation = new GeoLocation(lat, lon);
 
-                var response = (HttpWebResponse)request.EndGetResponse(asyncResult);
-                requestInfo.Response = response;
+			return geoLocation;
+		}
+		#endregion
+		#region HttpDownloadString
+		private void DownloadString(string requestUri, Action<string> ondDownloadCompleted)
+		{
+			var request = (HttpWebRequest)WebRequest.Create(requestUri);
+			RequestInfo requestInfo = new RequestInfo();
+			requestInfo.Request = request;
+			requestInfo.OnDataReadCompleted = ondDownloadCompleted;
+			var asyncResult = (IAsyncResult)request.BeginGetResponse(new AsyncCallback(ResponseCallback), requestInfo);
+		}
 
-                var stream = response.GetResponseStream();
-                requestInfo.ResponseStream = stream;
+		public void ResponseCallback(IAsyncResult asyncResult)
+		{
+			try
+			{
+				var requestInfo = asyncResult.AsyncState as RequestInfo;
+				var request = requestInfo.Request;
 
-                var buffer = requestInfo.Buffer;
-                stream.BeginRead(buffer, 0, buffer.Length, ReadCallback, requestInfo);
-            }
-            catch (WebException we)
-            {
-                Deployment.Current.Dispatcher.BeginInvoke(
-                        () =>
-                        {
-                            throw we;
-                        }
-                );
-            }
-        }
+				var response = (HttpWebResponse)request.EndGetResponse(asyncResult);
+				requestInfo.Response = response;
 
-        public void ReadCallback(IAsyncResult asyncResult)
-        {
-            var requestInfo = asyncResult.AsyncState as RequestInfo;
-            var responseStream = requestInfo.ResponseStream;
+				var stream = response.GetResponseStream();
+				requestInfo.ResponseStream = stream;
 
-            int readBytesCount = responseStream.EndRead(asyncResult);
-            if (readBytesCount > 0)
-            {
-                var buffer = requestInfo.Buffer;
-                string readData = Encoding.UTF8.GetString(buffer, 0, readBytesCount);
-                var data = requestInfo.Data;
-                data.Append(readData);
+				var buffer = requestInfo.Buffer;
+				stream.BeginRead(buffer, 0, buffer.Length, ReadCallback, requestInfo);
+			}
+			catch (WebException we)
+			{
+				Deployment.Current.Dispatcher.BeginInvoke(
+						() =>
+						{
+							throw we;
+						}
+				);
+			}
+		}
 
-                IAsyncResult asyncReadResult = (IAsyncResult)responseStream.BeginRead(buffer, 0, buffer.Length, ReadCallback, requestInfo);
-            }
-            else
-            {
-                var onDataReadCompleted = requestInfo.OnDataReadCompleted;
-                if (onDataReadCompleted != null)
-                {
-                    var data = requestInfo.Data.ToString();
-                    onDataReadCompleted(data);
-                }
+		public void ReadCallback(IAsyncResult asyncResult)
+		{
+			var requestInfo = asyncResult.AsyncState as RequestInfo;
+			var responseStream = requestInfo.ResponseStream;
 
-                responseStream.Close();
-            }
-        }
-        #endregion
-    }
+			int readBytesCount = responseStream.EndRead(asyncResult);
+			if (readBytesCount > 0)
+			{
+				var buffer = requestInfo.Buffer;
+				string readData = Encoding.UTF8.GetString(buffer, 0, readBytesCount);
+				var data = requestInfo.Data;
+				data.Append(readData);
+
+				IAsyncResult asyncReadResult = (IAsyncResult)responseStream.BeginRead(buffer, 0, buffer.Length, ReadCallback, requestInfo);
+			}
+			else
+			{
+				var onDataReadCompleted = requestInfo.OnDataReadCompleted;
+				if (onDataReadCompleted != null)
+				{
+					var data = requestInfo.Data.ToString();
+					onDataReadCompleted(data);
+				}
+
+				responseStream.Close();
+			}
+		}
+		#endregion
+	}
 }

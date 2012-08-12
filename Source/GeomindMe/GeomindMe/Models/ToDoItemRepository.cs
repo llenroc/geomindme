@@ -83,7 +83,6 @@ namespace GeomindMe.Models
         }
 
 
-
         public IQueryable<ToDoItem> GetIncompletedToDoItems()
         {
             var toDoItems = _context.ToDoItems.Where(tdi => !tdi.IsCompleted);
