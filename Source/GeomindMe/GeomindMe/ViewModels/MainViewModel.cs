@@ -44,7 +44,7 @@ namespace GeomindMe.ViewModels
 
         public void AboutExecute()
         {
-            string aboutPageUri = "/Views/AboutPage.xaml";
+            string aboutPageUri = "/YourLastAboutDialog;component/AboutPage.xaml";
             NavigationController.Instance.Navigate(new Uri(aboutPageUri, UriKind.Relative));
         }
 

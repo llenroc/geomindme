@@ -16,7 +16,7 @@
 	<Color x:Key="GreenCommonFontResource">#FF8CBA40</Color>
 	<Style x:Key="PhoneTextTitle1CustomStyle" BasedOn="{StaticResource PhoneTextBlockBase}" TargetType="TextBlock">
 		<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiLight}"/>
-		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraExtraLarge}"/>
+		<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraLarge}"/>
 		<Setter Property="Foreground">
 			<Setter.Value>
 				<SolidColorBrush Color="{StaticResource GreenCommonFontResource}"/>

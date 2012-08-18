@@ -4,3 +4,8 @@ obj
 
 # mstest test results
 TestResults
+/Source/GeomindMe/packages/YLAD.2.0.0/YLAD.2.0.0.nupkg
+/Source/GeomindMe/packages/YLAD.2.0.0/lib/sl40-wp71/YourLastAboutDialog.dll
+/Source/GeomindMe/packages/YLAD.2.0.0/lib/sl40-wp71/YourLastAboutDialog.xml
+/Source/GeomindMe/packages/YLAD.2.0.0/readme.txt
+/Source/GeomindMe/packages/YLAD.2.0.0/tools/Install.ps1

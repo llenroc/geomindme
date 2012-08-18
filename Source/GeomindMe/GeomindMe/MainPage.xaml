@@ -19,10 +19,7 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <controls:Pivot  LoadedPivotItem="Pivot_LoadedPivotItem" Foreground="{StaticResource CommonTitleFontColorResource}">
             <controls:Pivot.Title>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Image Source="/GeomindMe;component/Images/geomindme-logo-24.png" Height="24" Width="24"/>
-                    <TextBlock Text="GeomindMe" Foreground="White"/>
-                </StackPanel>
+                <my1:Logo />
             </controls:Pivot.Title>
             <controls:PivotItem Name="ToDoItemsListPivotItem" Header="to do" DataContext="{Binding Path=ToDoItemsListViewModel, Source={StaticResource Locator}}">
                 <my1:ToDoItemsListView />
@@ -46,7 +43,8 @@
                 <shell:ApplicationBarMenuItem Text="Show completed" x:Name="ShowCompletedMenuItem" Click="ShowCompletedMenuItem_Click"/>
                 <shell:ApplicationBarMenuItem Text="Show incompleted" x:Name="ShowIcompletedMenuItem" Click="ShowIcompletedMenuItem_Click"/>
                 <shell:ApplicationBarMenuItem Text="Settings" x:Name="SettingsMenuItem" Click="OnAppBarSettingsClick"/>
-            </shell:ApplicationBar.MenuItems>
+				<shell:ApplicationBarMenuItem Text="Privacy Policy" x:Name="PrivacyPolicyMenuItem" Click="PrivacyPolicyMenuItem_Click"/>
+			</shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

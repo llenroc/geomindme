@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{1137e3f3-121b-4606-b300-243db0462bda}" Title="GeomindMe" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="GeomindMe author" Description="Sample description" Publisher="GeomindMe">
+  <App xmlns="" ProductID="{1137e3f3-121b-4606-b300-243db0462bda}" Title="GeomindMe" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Todor Mihaylov" Description="GeomindMe is a geo reminder application." Publisher="GeomindMe">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />

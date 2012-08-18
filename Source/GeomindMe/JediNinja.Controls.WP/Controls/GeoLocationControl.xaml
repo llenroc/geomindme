@@ -45,7 +45,7 @@
                         <toolkit:PerformanceProgressBar x:Name="GpsLocationRetrievalProgress" Background="{Binding Source={StaticResource CommonTitleFontColorResource}}" />
                         <toolkit:PerformanceProgressBar x:Name="MapsLocationRetrievalProgress" Background="{Binding Source={StaticResource CommonTitleFontColorResource}}"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Visibility="Collapsed">
                         <TextBlock  Margin="3,3,6,3" x:Name="LatitudeTextBlock"/>
                         <TextBlock  Margin="3,3,6,3" x:Name="LongitudeTextBlock"/>
                     </StackPanel>
@@ -69,10 +69,10 @@
                         </my:Pushpin>
                     </my:Map>
                     <StackPanel Grid.Column="1" >
-                        <Button Content="+" Margin="0" x:Name="ZoomInButton" Click="ZoomInButton_Click" BorderBrush="{StaticResource CommonTitleFontColorResource}" Foreground="{StaticResource CommonTitleFontColorResource}" />
-                        <Button Content="-" Margin="0" x:Name="ZoomOutButton" Click="ZoomOutButton_Click" BorderBrush="{StaticResource CommonTitleFontColorResource}" Foreground="{StaticResource CommonTitleFontColorResource}" />
+                        <Button Content="+" Margin="0" x:Name="ZoomInButton" Click="ZoomInButton_Click" BorderBrush="{StaticResource CommonTitleFontColorResource}" Foreground="{StaticResource CommonTitleFontColorResource}" Padding="5,2" />
+                        <Button Content="-" Margin="0" x:Name="ZoomOutButton" Click="ZoomOutButton_Click" BorderBrush="{StaticResource CommonTitleFontColorResource}" Foreground="{StaticResource CommonTitleFontColorResource}" Padding="5,2" />
                     </StackPanel>
-                    <Button  Margin="3" x:Name="MeButton" Grid.Column="1" VerticalAlignment="Bottom" Click="MeButton_Click" BorderThickness="0">
+                    <Button  Margin="3" x:Name="MeButton" Grid.Column="1" VerticalAlignment="Bottom" Click="MeButton_Click" BorderThickness="0" Padding="0">
                         <Button.Content>
                             <Image Source="/JediNinja.Controls.WP;component/Images/locateme-icon-colored.png" Width="48" />
                         </Button.Content>

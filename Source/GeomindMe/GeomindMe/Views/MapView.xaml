@@ -8,7 +8,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480"
-    d:DataContext="{Binding Path=ToDoItemsListViewModel, Source={StaticResource Locator}}">
+    DataContext="{Binding Path=ToDoItemsListViewModel, Source={StaticResource Locator}}">
 
     <Grid x:Name="LayoutRoot">
         <Grid>
@@ -54,7 +54,7 @@
                     <Button Content="+" Margin="0" x:Name="ZoomInButton" Click="ZoomInButton_Click" BorderBrush="{StaticResource CommonTitleFontColorResource}" Foreground="{StaticResource CommonTitleFontColorResource}" />
                     <Button Content="-" Margin="0" x:Name="ZoomOutButton" Click="ZoomOutButton_Click" BorderBrush="{StaticResource CommonTitleFontColorResource}" Foreground="{StaticResource CommonTitleFontColorResource}" />
                 </StackPanel>
-                <Button  Margin="3,3,3,60" x:Name="MeButton" Grid.Column="1" VerticalAlignment="Bottom" Click="MeButton_Click" BorderThickness="0">
+                <Button  Margin="3,3,3,60" x:Name="MeButton" Grid.Column="1" VerticalAlignment="Bottom" Click="MeButton_Click" BorderThickness="0" Padding="0">
                     <Button.Content>
                         <Image Source="/JediNinja.Controls.WP;component/Images/locateme-icon-colored.png" Width="48" />
                     </Button.Content>

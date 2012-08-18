@@ -24,6 +24,40 @@ namespace JediNinja.Controls.WP
 			InitializeComponent();
 		}
 
+		public event EventHandler OnRequestLocationServicesEnabled;
+
+		#region IsLocationServicesEnabledByUser
+		/// <summary>
+		/// The <see cref="IsLocationServicesEnabledByUser" /> dependency property's name.
+		/// </summary>
+		public const string IsLocationServicesEnabledByUserPropertyName = "IsLocationServicesEnabledByUser";
+
+		/// <summary>
+		/// Gets or sets the value of the <see cref="IsLocationServicesEnabledByUser" />
+		/// property. This is a dependency property.
+		/// </summary>
+		public bool IsLocationServicesEnabledByUser
+		{
+			get
+			{
+				return (bool)GetValue(IsLocationServicesEnabledByUserProperty);
+			}
+			set
+			{
+				SetValue(IsLocationServicesEnabledByUserProperty, value);
+			}
+		}
+
+		/// <summary>
+		/// Identifies the <see cref="IsLocationServicesEnabledByUser" /> dependency property.
+		/// </summary>
+		public static readonly DependencyProperty IsLocationServicesEnabledByUserProperty = DependencyProperty.Register(
+			IsLocationServicesEnabledByUserPropertyName,
+			typeof(bool),
+			typeof(GeoLocationControl),
+			new PropertyMetadata(false));
+		#endregion
+
 		public double Latitude
 		{
 			get
@@ -90,9 +124,6 @@ namespace JediNinja.Controls.WP
 			NavigateToMap(geoCoordinate);
 		}
 
-
-
-
 		private void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
 			string address = SearchTextBox.Text;
@@ -111,6 +142,10 @@ namespace JediNinja.Controls.WP
 			Dispatcher.BeginInvoke(
 				() =>
 				{
+					if (geoLocation == null)
+					{
+						MessageBox.Show("Address not found!");
+					}
 					GpsLocationRetrievalProgress.IsEnabled = false;
 					//PositionTextBox.Text = geoLocation.ToString();
 					Latitude = geoLocation.Latitude;
@@ -150,10 +185,17 @@ namespace JediNinja.Controls.WP
 
 		private void GetCurrentGpsPosition()
 		{
-			GeoCoordinateWatcher geoWatcher = new GeoCoordinateWatcher();
-			geoWatcher.MovementThreshold = 50;
-			geoWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(geoWatcher_PositionChanged);
-			geoWatcher.TryStart(false, TimeSpan.FromSeconds(30));
+			if (IsLocationServicesEnabledByUser)
+			{
+				GeoCoordinateWatcher geoWatcher = new GeoCoordinateWatcher();
+				geoWatcher.MovementThreshold = 50;
+				geoWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(geoWatcher_PositionChanged);
+				geoWatcher.TryStart(false, TimeSpan.FromSeconds(30));
+			}
+			else
+			{
+				OnRequestLocationServicesEnabled(this, new EventArgs());
+			}
 		}
 
 		void geoWatcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
@@ -210,7 +252,9 @@ namespace JediNinja.Controls.WP
 				{
 					Dispatcher.BeginInvoke(()=>
 					{
-						Address = address.Substring(0,Math.Min(address.Length,254));	
+						string resultAddress = address.Substring(0,Math.Min(address.Length,254));	
+						Address = resultAddress;
+						locationPushPin.Content = resultAddress;
 					});
 				});
 

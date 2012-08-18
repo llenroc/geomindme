@@ -1,5 +1,5 @@
-﻿<phone:PhoneApplicationPage 
-	x:Class="GeomindMe.Views.ToDoItemsListViewPage"
+﻿<phone:PhoneApplicationPage xmlns:my="clr-namespace:GeomindMe.Views"  
+	x:Class="GeomindMe.Views.PrivacyPolicy"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -11,7 +11,7 @@
 	Foreground="{StaticResource PhoneForegroundBrush}"
 	SupportedOrientations="Portrait" Orientation="Portrait"
 	mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
-	shell:SystemTray.IsVisible="True" xmlns:my="clr-namespace:GeomindMe.Views">
+	shell:SystemTray.IsVisible="True">
 
 	<!--LayoutRoot is the root grid where all page content is placed-->
 	<Grid x:Name="LayoutRoot" Background="Transparent">
@@ -23,23 +23,36 @@
 		<!--TitlePanel contains the name of the application and page title-->
 		<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
 			<my:Logo />
-			<TextBlock x:Name="PageTitle" Text="to do" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1CustomStyle}"/>
+			<TextBlock x:Name="PageTitle" Text="privacy policy" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1CustomStyle}" Foreground="{StaticResource CommonTitleFontColorResource}" />
 		</StackPanel>
 
 		<!--ContentPanel - place additional content here-->
 		<Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+			<StackPanel>
+				<TextBlock TextWrapping="Wrap">
+				<TextBlock.Text>
+					Your privacy is important to us. We use your location information to Provide requested location services. Your information is not stored on server.
+				</TextBlock.Text>
+				</TextBlock>
+				<TextBlock TextWrapping="Wrap">
+				<TextBlock.Text>
+					 If you have any question contact me at
+				</TextBlock.Text>
+				</TextBlock>
+				<HyperlinkButton Content="email: tbmihailov@gmail.com" Click="Contact_Click" />
+			</StackPanel>
+
 		</Grid>
 	</Grid>
- 
+
 	<!--Sample code showing usage of ApplicationBar-->
 	<phone:PhoneApplicationPage.ApplicationBar>
-		<shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="{StaticResource AppBarColorResource}">
-			<shell:ApplicationBarIconButton IconUri="/Images/appbar.add.rest.png" Text="Add"/>
-			<shell:ApplicationBarIconButton IconUri="/Images/appbar.refresh.rest.png" Text="Refresh"/>
-			<!--<shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>-->
-			<!--<shell:ApplicationBar.MenuItems>
-				<shell:ApplicationBarMenuItem Text="Nearby 1 km"/>
-				<shell:ApplicationBarMenuItem Text="Nearby 5 km"/>
+		<shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+			<shell:ApplicationBarIconButton IconUri="/Images/appbar.check.rest.png" Text="Close" x:Name="CloseMenuItem"  Click="CloseMenuItem_Click"/>
+			<!--<shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
+			<shell:ApplicationBar.MenuItems>
+				<shell:ApplicationBarMenuItem Text="MenuItem 1"/>
+				<shell:ApplicationBarMenuItem Text="MenuItem 2"/>
 			</shell:ApplicationBar.MenuItems>-->
 		</shell:ApplicationBar>
 	</phone:PhoneApplicationPage.ApplicationBar>

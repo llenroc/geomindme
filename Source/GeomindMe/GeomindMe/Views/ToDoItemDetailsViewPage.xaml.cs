@@ -13,6 +13,7 @@ using Microsoft.Phone.Controls;
 using System.Windows.Navigation;
 using GeomindMe.ViewModels;
 using System.Device.Location;
+using GeomindMe.Models;
 
 namespace GeomindMe.Views
 {
@@ -24,37 +25,41 @@ namespace GeomindMe.Views
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
+		{
+			base.OnNavigatedTo(e);
 
-            if (NavigationContext.QueryString.ContainsKey("id"))
-            {
-                string idQueryString = NavigationContext.QueryString["id"];
-                int id = 0;
-                if (!Int32.TryParse(idQueryString, out id))
-                {
-                    throw new ArgumentException("id is not valid value!");
-                }
+			if (NavigationContext.QueryString.ContainsKey("id"))
+			{
+				string idQueryString = NavigationContext.QueryString["id"];
+				int id = 0;
+				if (!Int32.TryParse(idQueryString, out id))
+				{
+					throw new ArgumentException("id is not valid value!");
+				}
 
-                ToDoItemDetailsViewModel viewModel = (ToDoItemDetailsViewModel)this.DataContext;
-                string currentUri = e.Uri.OriginalString;
+				ToDoItemDetailsViewModel viewModel = new ToDoItemDetailsViewModel(new ToDoItemRepository());
+				this.DataContext = viewModel;
+				string currentUri = e.Uri.OriginalString;
 				viewModel.OnToDoItemChanged += new GeomindMe.ViewModels.ToDoItemDetailsViewModel.LocationEventHandler(
-						(geoLocation)=>
+						(geoLocation) =>
 						{
 							Dispatcher.BeginInvoke(new Action(() =>
 							{
 								NavigateMap(new GeoCoordinate(geoLocation.Latitude, geoLocation.Longitude), true);
 							}));
 						});
-                viewModel.Load(id, currentUri);
+				viewModel.Load(id, currentUri);
 				
-                return;
-            }
-            else
-            {
-                throw new ArgumentNullException("id must not be null!");
-            }
-        }
+
+
+				
+				return;
+			}
+			else
+			{
+				throw new ArgumentNullException("id must not be null!");
+			}
+		}
 
 		private void NavigateMap(System.Device.Location.GeoCoordinate todoLocation, bool closeZoom)
 		{

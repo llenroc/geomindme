@@ -13,6 +13,8 @@ using Microsoft.Phone.Controls;
 using GeomindMe.ViewModels;
 using GeomindMe.Models;
 using Microsoft.Phone.Shell;
+using GeomindMe.Helpers;
+using GeomindMe.Services;
 
 namespace GeomindMe
 {
@@ -27,9 +29,17 @@ namespace GeomindMe
         {
             base.OnNavigatedTo(e);
 
-            this.RefreshToDoItems();
-            
+			PrivacyHelper.PrivacyCheck();
+
+			this.InitToDoItemsList();
         }
+
+		private void InitToDoItemsList()
+		{
+			var toDoItemsListViewModel = new ToDoItemsListViewModel(new ToDoItemRepository());
+			ToDoItemsListPivotItem.DataContext = toDoItemsListViewModel;
+			MapPivotItem.DataContext = toDoItemsListViewModel;
+		}
 
         private void OnAppBarButtonAddToDoItemClick(object sender, EventArgs e)
         {
@@ -45,14 +55,14 @@ namespace GeomindMe
             RefreshToDoItems();
         }
 
-        private void RefreshToDoItems()
-        {
-            var toDoItemsListViewModel = ToDoItemsListPivotItem.DataContext as ToDoItemsListViewModel;
-            if (toDoItemsListViewModel != null)
-            {
-                toDoItemsListViewModel.LoadIncompletedCommand.Execute(null);
-            }
-        }
+		private void RefreshToDoItems()
+		{
+			var toDoItemsListViewModel = ToDoItemsListPivotItem.DataContext as ToDoItemsListViewModel;
+			if (toDoItemsListViewModel != null)
+			{
+				toDoItemsListViewModel.LoadIncompletedCommand.Execute(null);
+			}
+		}
 
         private void Pivot_LoadedPivotItem(object sender, PivotItemEventArgs e)
         {
@@ -66,11 +76,12 @@ namespace GeomindMe
 
         private void OnAppBarAboutClick(object sender, EventArgs e)
         {
-            var mainViewModel = this.DataContext as MainViewModel;
-            if (mainViewModel != null)
-            {
-                mainViewModel.AboutCommand.Execute(null);
-            }
+			var mainViewModel = this.DataContext as MainViewModel;
+			if (mainViewModel != null)
+			{
+				mainViewModel.AboutCommand.Execute(null);
+			}
+
         }
 
         private void OnAppBarSettingsClick(object sender, EventArgs e)
@@ -99,6 +110,11 @@ namespace GeomindMe
                 toDoItemsListViewModel.LoadIncompletedCommand.Execute(null);
             }
         }
+
+		private void PrivacyPolicyMenuItem_Click(object sender, EventArgs e)
+		{
+			NavigationController.Instance.Navigate(new Uri("/Views/PrivacyPolicy.xaml", UriKind.Relative));
+		}
 
         
 

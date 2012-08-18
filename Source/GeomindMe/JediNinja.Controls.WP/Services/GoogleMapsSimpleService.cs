@@ -38,6 +38,8 @@ namespace JediNinja.Controls.WP.Services
 
 	public class GoogleMapsSimpleService
 	{
+		public const string GEOCODE_ZERO_RESULTS = "ZERO_RESULTS";
+
 		#region AddressByGeoLocation
 		Action<string> _onAddressByGeoLocationCallback;
 		public void GetAddressByGeoLocation(GeoLocation geoLocation, Action<string> addressByGeoLocationCallback)
@@ -63,7 +65,7 @@ namespace JediNinja.Controls.WP.Services
 		private string ExtractAddressFromGeocodeData(string data)
 		{
 			var geocodeResponse = GeoLocationPicker.Helpers.Serializer<GeocodeResponse>.DeserializeFromXMLString(data);
-			string address = geocodeResponse.result[0].address_component[0].long_name;
+			string address = geocodeResponse.result[0].formatted_address;
 			return address;
 		}
 
@@ -94,6 +96,10 @@ namespace JediNinja.Controls.WP.Services
 		{
 			var geocodeResponse = GeoLocationPicker.Helpers.Serializer<GeocodeResponse>.DeserializeFromXMLString(data);
 
+			if (geocodeResponse.status == GEOCODE_ZERO_RESULTS)
+			{
+				return null;
+			}
 			double lat = 0.0f;
 			string latStr = geocodeResponse.result[0].geometry[0].location[0].lat;
 			if (!double.TryParse(latStr, out lat))

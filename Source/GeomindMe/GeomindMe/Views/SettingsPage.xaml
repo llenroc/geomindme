@@ -1,73 +1,102 @@
-﻿<phone:PhoneApplicationPage 
-    x:Class="GeomindMe.Views.SettingsPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True"
-    DataContext="{Binding Source={StaticResource Locator}, Path=SettingsViewModel}" xmlns:my="clr-namespace:GeomindMe.Helpers">
-    <phone:PhoneApplicationPage.Resources>
-        <my:BoolToOnOffConverter x:Key="BoolToOnOffConverter" />
-    </phone:PhoneApplicationPage.Resources>
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+﻿<phone:PhoneApplicationPage xmlns:my1="clr-namespace:GeomindMe.Views"  
+	x:Class="GeomindMe.Views.SettingsPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait" Orientation="Portrait"
+	mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	shell:SystemTray.IsVisible="True"
+	DataContext="{Binding Source={StaticResource Locator}, Path=SettingsViewModel}" xmlns:my="clr-namespace:GeomindMe.Helpers">
+	<phone:PhoneApplicationPage.Resources>
+		<my:BoolToOnOffConverter x:Key="BoolToOnOffConverter" />
+		<my:BoolToTextConverter x:Key="BoolToEnableDisableConverter" TrueValue="Enabled" FalseValue="Disabled" DefaultValue="Enable"/>
+	</phone:PhoneApplicationPage.Resources>
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot" Background="Transparent">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Image Source="/GeomindMe;component/Images/geomindme-logo-24.png" Height="24" Width="24"/>
-                <TextBlock Text="GeomindMe" Foreground="White"/>
-            </StackPanel>
-            <TextBlock x:Name="PageTitle" Text="settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1CustomStyle}"/>
-        </StackPanel>
+		<!--TitlePanel contains the name of the application and page title-->
+		<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+			<my1:Logo />
+			<TextBlock x:Name="PageTitle" Text="settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1CustomStyle}"/>
+		</StackPanel>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Background task" Grid.Row="0" Grid.Column="0"/>
-            <Grid Grid.Row="1" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Path=IsScheduleTaskActivated, Converter={StaticResource BoolToOnOffConverter}}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10" Style="{StaticResource PhoneTextExtraLargeStyle}" />
-                <Button Content="{Binding Path=IsScheduleTaskActivated, Converter={StaticResource NotBoolToSwitchTitleConverter}}" HorizontalAlignment="Right" x:Name="SwitchButton" Click="OnButtonSwitchClick" Grid.Row="0" Grid.Column="1"/>
-            </Grid>
-            <TextBlock/>
-            <TextBlock Text="If background task is ON you will be notified when you are in range of TO-DO even if app is not running" TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="2" Foreground="{StaticResource CommonTitleFontColorResource}" />
-            <Button Content="Test" Click="OnButtonTestClick" x:Name="TestButton" Grid.Row="3" Visibility="Collapsed"/>
-        </Grid>
-    </Grid>
+		<!--ContentPanel - place additional content here-->
+		<Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Grid x:Name="BackgroundTaskSettings" Grid.Row="0" >
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="Background task" Grid.Row="0" Grid.Column="0" Foreground="{StaticResource CommonTitleFontColorResource}" />
+				<Grid Grid.Row="1" >
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="{Binding Path=IsScheduleTaskActivated, Converter={StaticResource BoolToOnOffConverter}}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10" Style="{StaticResource PhoneTextLargeStyle}" />
+					<Button Content="{Binding Path=IsScheduleTaskActivated, Converter={StaticResource NotBoolToSwitchTitleConverter}}" HorizontalAlignment="Right" x:Name="SwitchButton" Click="OnButtonSwitchClick" Grid.Row="0" Grid.Column="1"/>
+				</Grid>
+				<TextBlock Text="If background task is ON you will be notified when you are in range of TO-DO even if the application is not running" TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="2" />
+				<Button Content="Test" Click="OnButtonTestClick" x:Name="TestButton" Grid.Row="3" Visibility="Visible"/>
+			</Grid>
 
-    <!--Sample code showing usage of ApplicationBar-->
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="{StaticResource AppBarColorResource}">
-            <shell:ApplicationBarIconButton  IconUri="/Images/appbar.check.rest.png" Text="OK" Click="OnAppBarButtonSaveClick" />
-            <!--<shell:ApplicationBarIconButton  IconUri="/Images/appbar.cancel.rest.png" Text="Cancel" Click="OnAppBarButtonCancelClick" />-->
-            <!--<shell:ApplicationBarIconButton IconUri="/Images/appbar.delete.rest.png" Text="Complete"/>-->
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+			<Grid x:Name="LocationServicesSettings" Grid.Row="1" >
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<toolkit:ToggleSwitch Grid.Row="1" Grid.ColumnSpan="2" Content="{Binding IsLocationServicesEnabled, Converter={StaticResource BoolToEnableDisableConverter}}"  IsChecked="{Binding IsLocationServicesEnabled, Mode=TwoWay}" SwitchForeground="{StaticResource CommonTitleFontColorResource}" >
+					<toolkit:ToggleSwitch.Header>
+						<TextBlock Text="Location services" Foreground="{StaticResource CommonTitleFontColorResource}"/>
+					</toolkit:ToggleSwitch.Header>
+				</toolkit:ToggleSwitch>
+
+				<TextBlock Text="If location services are Off GeomindMe will not be able to notify you for your tasks.Privacy:Your privacy is important to us. We use your location information to Provide requested location services. Your information is not stored on server." TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="2" />
+			</Grid>
+
+		</Grid>
+	</Grid>
+
+	<!--Sample code showing usage of ApplicationBar-->
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="{StaticResource AppBarColorResource}">
+			<shell:ApplicationBarIconButton  IconUri="/Images/appbar.check.rest.png" Text="OK" Click="OnAppBarButtonSaveClick" />
+			<!--<shell:ApplicationBarIconButton  IconUri="/Images/appbar.cancel.rest.png" Text="Cancel" Click="OnAppBarButtonCancelClick" />-->
+			<!--<shell:ApplicationBarIconButton IconUri="/Images/appbar.delete.rest.png" Text="Complete"/>-->
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
