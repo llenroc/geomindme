@@ -8,7 +8,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480"
-    DataContext="{Binding Path=ToDoItemsListViewModel, Source={StaticResource Locator}}">
+    d:DataContext="{Binding Path=ToDoItemsListViewModel, Source={StaticResource Locator}}">
 
     <Grid x:Name="LayoutRoot">
         <Grid>
