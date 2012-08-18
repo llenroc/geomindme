@@ -64,7 +64,12 @@
 					<TextBlock Text="{Binding Path=IsScheduleTaskActivated, Converter={StaticResource BoolToOnOffConverter}}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10" Style="{StaticResource PhoneTextLargeStyle}" />
 					<Button Content="{Binding Path=IsScheduleTaskActivated, Converter={StaticResource NotBoolToSwitchTitleConverter}}" HorizontalAlignment="Right" x:Name="SwitchButton" Click="OnButtonSwitchClick" Grid.Row="0" Grid.Column="1"/>
 				</Grid>
-				<TextBlock Text="If background task is ON you will be notified when you are in range of TO-DO even if the application is not running" TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="2" />
+				<TextBlock TextWrapping="Wrap" Grid.Row="2" Grid.ColumnSpan="2" >
+					<TextBlock.Text>
+						If background task is ON you will be notified when you are in range of todo even if the application is not running.
+						 Geo location check is performed on 30 minutes.
+					</TextBlock.Text>
+				</TextBlock>
 				<Button Content="Test" Click="OnButtonTestClick" x:Name="TestButton" Grid.Row="3" Visibility="Collapsed"/>
 			</Grid>
 
