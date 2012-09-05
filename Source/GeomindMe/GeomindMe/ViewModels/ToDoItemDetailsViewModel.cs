@@ -263,10 +263,12 @@ namespace GeomindMe.ViewModels
 			//test if Tile was created
 			if (tileToFind == null)
 			{
+				string locationAddress = ToDoItem.LocationAddress;
+				string title = locationAddress.Length<=20?locationAddress:string.Format("{0}...",locationAddress.Substring(0, 17));
 				StandardTileData newTileData = new StandardTileData
 				{
 					BackgroundImage = new Uri("/Images/tile-icon.png", UriKind.Relative),
-					Title = "Geo TO-DO",
+					Title = title,
 					Count = null,
 					BackTitle = ToDoItem.LocationAddress,
 					BackContent = ToDoItem.Text,
