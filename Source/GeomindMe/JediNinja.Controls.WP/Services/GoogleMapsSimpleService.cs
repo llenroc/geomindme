@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Globalization;
 
 namespace JediNinja.Controls.WP.Services
 {
@@ -80,7 +81,7 @@ namespace JediNinja.Controls.WP.Services
 			string escapedAddress = Uri.EscapeUriString(address);
 			string requestUri = string.Format("https://maps.googleapis.com/maps/api/geocode/xml?address={0}&sensor=true", escapedAddress);
 
-			DownloadString(requestUri, 
+			DownloadString(requestUri,
 				(data) =>
 				{
 					GeoLocation geoLocation = ExtractGeoLocationFromGeoCodeData(data);
@@ -102,14 +103,15 @@ namespace JediNinja.Controls.WP.Services
 			}
 			double lat = 0.0f;
 			string latStr = geocodeResponse.result[0].geometry[0].location[0].lat;
-			if (!double.TryParse(latStr, out lat))
+			if (!double.TryParse(latStr, NumberStyles.Any, CultureInfo.InvariantCulture, out lat))
 			{
 				lat = 0.0f;
 			}
 
 			double lon = 0.0f;
 			string lonStr = geocodeResponse.result[0].geometry[0].location[0].lng;
-			if (!double.TryParse(lonStr, out lon))
+			double.Parse(lonStr, CultureInfo.InvariantCulture);
+			if (!double.TryParse(lonStr, NumberStyles.Any, CultureInfo.InvariantCulture, out lon))
 			{
 				lon = 0.0f;
 			}
