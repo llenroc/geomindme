@@ -25,6 +25,27 @@ namespace GeomindMe
         public PhoneApplicationFrame RootFrame { get; private set; }
 
         /// <summary>
+        /// Use property to check if application is in Trial mode
+        /// </summary>
+        public static bool IsTrial
+        {
+            get;
+            // setting the IsTrial property from outside is not allowed
+            private set;
+        }
+
+        private void DetermineIsTrail()
+        {
+#if TRIAL
+    // return true if debugging with trial enabled (DebugTrial configuration is active)
+    IsTrial = true;
+#else
+            var license = new Microsoft.Phone.Marketplace.LicenseInformation();
+            IsTrial = license.IsTrial();
+#endif
+        }
+
+        /// <summary>
         /// Constructor for the Application object.
         /// </summary>
         public App()
@@ -64,17 +85,22 @@ namespace GeomindMe
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            DetermineIsTrail();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            DetermineIsTrail();
+
             if (e.IsApplicationInstancePreserved)
             {
                 //app is returning from dormant state
                 return;
             }
+
+
             ViewModels.ViewModelLocator locator = Resources["Locator"] as ViewModels.ViewModelLocator;
             if (locator == null)
             {
@@ -129,10 +155,10 @@ namespace GeomindMe
                 e.Handled = true;
             }
 
-            if ((!e.Handled)&&(e.ExceptionObject is Exception))
+            if ((!e.Handled) && (e.ExceptionObject is Exception))
             {
                 MessageBox.Show("Unexpected error!");
-				e.Handled = true;
+                e.Handled = true;
             }
 
             if (System.Diagnostics.Debugger.IsAttached)

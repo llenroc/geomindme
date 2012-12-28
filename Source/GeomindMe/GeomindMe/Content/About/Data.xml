@@ -54,8 +54,9 @@
     <!-- Supported types are "text" and "xaml", where text is nicely formatted automatically, and XAML is handled by the built-in XamlReader -->
     <Item Title="history"
           Type="text">
-      1.0.0.0
-      This is the initial public version.      
+      1.2.2.0
+      - New Metro look and feel      
+      - Improved Location address name retrieval
     </Item>
   </Items>
 </About>
